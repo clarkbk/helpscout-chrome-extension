@@ -33,12 +33,16 @@
         $scope.mailbox = undefined;
         $scope.mailbox_obj = undefined;
         $scope.mailboxes = undefined;
+        $scope.poll_interval = undefined;
+        $scope.color_threshold = undefined;
       };
 
       $scope.save_settings = function() {
         var config = {
           'api_key': $scope.api_key,
-          'mailbox': $scope.mailbox_obj
+          'mailbox': $scope.mailbox_obj,
+          'poll_interval': $scope.poll_interval || 60,
+          'color_threshold': $scope.color_threshold || 150
         };
         chrome.storage.sync.set({'config': config});
 
@@ -54,9 +58,15 @@
         chrome.storage.sync.get('config', function(data) {
           var config = data.config;
           $scope.$apply(function() {
-            if (config && config.api_key) {
+            if (config) {
               $scope.api_key = config.api_key;
               $scope.mailbox_obj = config.mailbox;
+              if (config.poll_interval !== 60) {
+                $scope.poll_interval = config.poll_interval;
+              }
+              if (config.color_threshold !== 150) {
+                $scope.color_threshold = config.color_threshold;
+              }
             }
             callback();
           });

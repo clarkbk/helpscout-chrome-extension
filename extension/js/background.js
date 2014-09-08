@@ -1,12 +1,10 @@
-var setBadgeAppearance = function(count) {
+var setBadgeAppearance = function(count, max) {
   if (!count) {
     chrome.browserAction.setBadgeText({text: '...'});
     chrome.browserAction.setBadgeBackgroundColor({color: '#666666'});
     return;
   }
-
-  var max, h, hsv, rgba;
-  max = 150;
+  var h, hsv, rgba;
   h = count < max ? Math.round((max-count)/max*110) : 0;
   hsv = {h: h, s: 80, v: 75};
   rgba = _.values(tinycolor(hsv).toRgb());
@@ -50,10 +48,10 @@ var startPolling = function(config) {
       success: function(data) {
         var unassigned = _.find(data.items, {'type': 'open'});
         var unassignedCount = unassigned.activeCount;
-        setBadgeAppearance(unassignedCount);
+        setBadgeAppearance(unassignedCount, config.color_threshold);
       }
     });
-    setTimeout(getUnreadCount, 60000);
+    setTimeout(getUnreadCount, config.poll_interval*1000);
   })();
 };
 

@@ -13,3 +13,11 @@
 .help-block {
   text-align: left;
 }
+.form-group.optional label {
+  color: #555;
+}
+.form-group label small {
+  font-weight: normal;
+  font-style: italic;
+  color: #737373;
+}

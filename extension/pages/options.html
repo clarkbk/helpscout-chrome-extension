@@ -31,6 +31,21 @@
 						</select>
 					</div>
 				</div>
+				<hr />
+				<div class="form-group optional">
+					<label for="poll_interval" class="col-xs-4 control-label">Polling interval<br/><small>optional</small></label>
+					<div class="col-xs-6">
+						<input id="poll_interval" class="form-control" type="number" ng-model="poll_interval" name="poll_interval" placeholder="60 (default)">
+						<span class="help-block">How many seconds between unread count updates?</span>
+					</div>
+				</div>
+				<div class="form-group optional">
+					<label for="color_threshold" class="col-xs-4 control-label">Red threshold<br/><small>optional</small></label>
+					<div class="col-xs-6">
+						<input id="color_threshold" class="form-control" type="number" ng-model="color_threshold" name="color_threshold" placeholder="150 (default)">
+						<span class="help-block">Badge color transitions from green (0 unread) to red (this number).</span>
+					</div>
+				</div>
 				<div class="form-group">
 					<div class="col-xs-4 col-xs-offset-4">
 						<input class="btn btn-primary btn-block" type="submit" value="Save &amp; Close" ng-disabled="!api_key_works || !api_key || !mailbox_obj">
