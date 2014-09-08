@@ -41,8 +41,8 @@
         };
         chrome.storage.sync.set({'config': config});
 
-        var bkg = chrome.extension.getBackgroundPage();
-        bkg.startPolling(config);
+        var bgpg = chrome.extension.getBackgroundPage();
+        bgpg.startPolling(config);
 
         chrome.tabs.getCurrent(function(tab) {
           chrome.tabs.remove(tab.id, function() {});
