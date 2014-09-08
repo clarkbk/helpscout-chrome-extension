@@ -34,8 +34,10 @@ var createRequest = function(apiKey) {
   };
 };
 
+var timer = null;
 var startPolling = function(config) {
   var apiUrl = 'https://api.helpscout.net/v1/';
+  clearTimeout(timer);
 
   (function getUnreadCount() {
     var request = createRequest(config.api_key);
@@ -51,7 +53,7 @@ var startPolling = function(config) {
         setBadgeAppearance(unassignedCount, config.color_threshold);
       }
     });
-    setTimeout(getUnreadCount, config.poll_interval*1000);
+    timer = setTimeout(getUnreadCount, config.poll_interval*1000);
   })();
 };
 
