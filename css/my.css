@@ -1,8 +1,14 @@
 body {
   padding-top: 50px;
 }
+.popup {
+  padding: 20px;
+}
 .container {
   max-width: 580px;
+}
+.popup-container {
+  width: 120px;
 }
 .main {
   padding: 40px 15px;
