@@ -12,7 +12,6 @@
   "permissions": [
     "storage"
   ],
-  "default_locale": "en",
   "background": {
     "page": "src/bg/background.html",
     "persistent": true
