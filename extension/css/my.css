@@ -1,6 +1,3 @@
-body {
-  padding-top: 50px;
-}
 .popup {
   padding: 20px;
 }
@@ -11,7 +8,6 @@ body {
   width: 120px;
 }
 .main {
-  padding: 40px 15px;
   text-align: center;
 }
 .help-block {
