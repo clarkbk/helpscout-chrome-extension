@@ -36,20 +36,6 @@ var createRequest = function(apiKey) {
   };
 };
 
-// var getMailboxSlug = function(config) {
-//   var request = createRequest(config.api_key);
-//   var endpoint = request.baseUrl + 'mailboxes/' + JSON.parse(config.mailbox).id + '.json';
-//   $.ajax({
-//     url: endpoint,
-//     headers: request.headers,
-//     dataType: "json",
-//     success: function(data) {
-//       console.log(data.item.slug);
-//       chrome.storage.local.set({'mailbox_slug': data.item.slug});
-//     }
-//   });
-// };
-
 var startPolling = function(config) {
   var apiUrl = 'https://api.helpscout.net/v1/';
 
@@ -76,8 +62,4 @@ var startPolling = function(config) {
   getApiConfig(function(config) {
     startPolling(config);
   });
-
-  // chrome.cookies.getAll({domain: 'secure.helpscout.net'}, function(data) {
-  //   console.log(data);
-  // });
 })();
