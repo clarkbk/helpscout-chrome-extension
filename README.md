@@ -19,6 +19,7 @@ After installing the extension:
 1. Generate an API key in your Help Scout user account.
 2. Open the extension's options page.
 3. Enter your key and select the inbox whose unread count you'd like to track.
-4. Save.
+4. Optionally adjust poll interval and color threshold settings.
+5. Save.
 
 The badge icon should update quickly with the current unread count.
