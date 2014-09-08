@@ -13,13 +13,13 @@
     "storage"
   ],
   "background": {
-    "page": "src/bg/background.html",
+    "page": "pages/background.html",
     "persistent": true
   },
-  "options_page": "src/options/index.html",
+  "options_page": "pages/options.html",
   "browser_action": {
     "default_icon": "icons/icon19.png",
     "default_title": "Help Scout Unread Counter",
-    "default_popup": "src/browser_action/popup.html"
+    "default_popup": "pages/popup.html"
   }
 }
