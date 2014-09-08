@@ -16,7 +16,7 @@ For development, you might also consider the [Chrome Apps & Extensions Developme
 
 After installing the extension:
 
-1. Generate an API key in your Help Scout user account.
+1. [Generate an API key](http://developer.helpscout.net/help-desk-api/) in your Help Scout user account.
 2. Open the extension's options page.
 3. Enter your key and select the inbox whose unread count you'd like to track.
 4. Optionally adjust poll interval and color threshold settings.
