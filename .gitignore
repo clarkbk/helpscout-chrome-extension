@@ -20,5 +20,5 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-.zip
-.pem
+*.zip
+*.pem
