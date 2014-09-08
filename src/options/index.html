@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" ng-csp="">
+<head>
+	<meta charset=utf-8 />
+	<script src="/js/vendor/angular.min.js"></script>
+	<script src="/js/vendor/base64.js"></script>
+	<script src="/js/options.js"></script>
+	<link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/my.css">
+</head>
+<body>
+	<div class="container">
+		<div class="main">
+			<div class="page-header">
+			  <h1>Configuration settings<br /><small>Enter your information below to get started.</small></h1>
+			</div>
+			<form ng-controller="HSClientController as client" ng-submit="save_settings()" role="form" class="form-horizontal" novalidate>
+				<div class="form-group" ng-class="{'has-success':mailboxes}">
+					<label for="api_key" class="col-xs-4 control-label">Help Scout API Key:</label>
+					<div class="col-xs-8">
+						<input id="api_key" class="form-control" type="text" ng-model="api_key" ng-change="refresh_mailboxes()" name="api_key">
+						<span class="help-block">Find or create an API Key in your <a href="https://secure.helpscout.net/users/">Help Scout</a> user settings.</span>
+					</div>
+				</div>
+				<div class="form-group" ng-class="{'has-success':mailbox_obj}">
+					<label for="mailbox" class="col-xs-4 control-label">Select a mailbox:</label>
+					<div class="col-xs-8">
+						<select name="mailbox" ng-model="mailbox_obj" class="form-control" id="mailbox" ng-disabled="!api_key_works">
+							<option value="" disabled selected>Choose a mailbox&hellip;</option>
+							<option value="{{mailbox}}" ng-repeat="mailbox in mailboxes">{{mailbox.name}}</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-4 col-xs-offset-4">
+						<input class="btn btn-primary btn-block" type="submit" value="Save &amp; Close" ng-disabled="!api_key_works || !api_key || !mailbox_obj">
+					</div>
+					<div class="col-xs-4">
+						<button class="btn btn-default btn-block" ng-click="clear_form()" ng-disabled="!api_key || !mailbox_obj">Clear</button>
+					</div>
+				</div>
+				<!-- <p>{{(mailbox_obj)}}</p> -->
+			</form>
+		</div>
+	</div>
+</body>
+</html>
