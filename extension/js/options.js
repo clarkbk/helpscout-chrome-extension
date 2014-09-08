@@ -31,6 +31,7 @@
       $scope.clear_form = function() {
         $scope.api_key = undefined;
         $scope.mailbox = undefined;
+        $scope.mailbox_obj = undefined;
         $scope.mailboxes = undefined;
       };
 
