@@ -1,5 +1,5 @@
 var setBadgeAppearance = function(count, max) {
-  if (!count) {
+  if (count !== 0 && !count) {
     chrome.browserAction.setBadgeText({text: '...'});
     chrome.browserAction.setBadgeBackgroundColor({color: '#666666'});
     return;
