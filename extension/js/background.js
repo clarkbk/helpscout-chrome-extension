@@ -14,6 +14,15 @@ var setBadgeAppearance = function(count, max) {
   chrome.browserAction.setBadgeBackgroundColor({color: rgba});
 };
 
+var updateBadgeAction = function(config) {
+  chrome.browserAction.setPopup({'popup': ''});
+  chrome.browserAction.onClicked.addListener(function (tab) {
+    chrome.tabs.create({
+      url: "https://secure.helpscout.net/dashboard/"
+    });
+  });
+};
+
 var getApiConfig = function(callback) {
   chrome.storage.sync.get('config', function(data) {
     if (!_.isEmpty(data)) {
@@ -36,6 +45,7 @@ var createRequest = function(apiKey) {
 
 var timer = null;
 var startPolling = function(config) {
+  updateBadgeAction(config);
   var apiUrl = 'https://api.helpscout.net/v1/';
   clearTimeout(timer);
 
