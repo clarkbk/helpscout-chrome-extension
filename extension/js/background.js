@@ -14,52 +14,64 @@ var setBadgeAppearance = function(count, max) {
   chrome.browserAction.setBadgeBackgroundColor({color: rgba});
 };
 
-var getApiConfig = function(callback) {
-  chrome.storage.sync.get('config', function(data) {
-    if (!_.isEmpty(data)) {
-      callback(data.config);
+var openMailboxUrl = function(config, folderId) {
+  chrome.storage.sync.get(['config', 'folderId'], function(data) {
+    var mailbox = JSON.parse(data.config.mailbox);
+    chrome.tabs.create({
+      url: "https://secure.helpscout.net/mailbox/" + mailbox.slug + "/" + data.folderId + "/"
+    });
+  });
+};
+
+var setBadgeAction = function() {
+  chrome.browserAction.setPopup({'popup': ''});
+  if(!chrome.browserAction.onClicked.hasListeners()) {
+    chrome.browserAction.onClicked.addListener(openMailboxUrl);
+  }
+};
+
+var getUnassignedFolder = function(config, callback) {
+  var apiAuth = 'Basic ' + Base64.encode(config.api_key + ':X');
+  var request = {
+    'headers': {
+      'Authorization': apiAuth,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    'baseUrl': 'https://api.helpscout.net/v1/'
+  };
+  var endpoint = request.baseUrl + 'mailboxes/' + JSON.parse(config.mailbox).id + '/folders.json';
+
+  $.ajax({
+    url: endpoint,
+    headers: request.headers,
+    dataType: "json",
+    success: function(data) {
+      var unassignedFolder = _.find(data.items, {'type': 'open'});
+      chrome.storage.sync.set({'folderId': unassignedFolder.id});
+      callback(unassignedFolder);
     }
   });
 };
 
-var createRequest = function(apiKey) {
-  var apiAuth = 'Basic ' + Base64.encode(apiKey + ':X');
-  var headers = {
-    'Authorization': apiAuth,
-    'Content-Type': 'application/x-www-form-urlencoded'
-  };
-  return {
-    'headers': headers,
-    'baseUrl': 'https://api.helpscout.net/v1/'
-  };
-};
-
 var timer = null;
 var startPolling = function(config) {
-  var apiUrl = 'https://api.helpscout.net/v1/';
   clearTimeout(timer);
-
-  (function getUnreadCount() {
-    var request = createRequest(config.api_key);
-    var endpoint = request.baseUrl + 'mailboxes/' + JSON.parse(config.mailbox).id + '/folders.json';
-
-    $.ajax({
-      url: endpoint,
-      headers: request.headers,
-      dataType: "json",
-      success: function(data) {
-        var unassigned = _.find(data.items, {'type': 'open'});
-        var unassignedCount = unassigned.activeCount;
-        setBadgeAppearance(unassignedCount, config.color_threshold);
-      }
+  (function repeat(){
+    getUnassignedFolder(config, function(data) {
+      var unassignedFolder = data;
+      var unassignedCount = data.activeCount;
+      setBadgeAppearance(unassignedCount, config.color_threshold);
+      setBadgeAction(config, unassignedFolder.id);
     });
-    timer = setTimeout(getUnreadCount, config.poll_interval*1000);
+    timer = setTimeout(repeat, config.poll_interval*1000);
   })();
 };
 
 (function() {
   setBadgeAppearance();
-  getApiConfig(function(config) {
-    startPolling(config);
+  chrome.storage.sync.get('config', function(data) {
+    if (!_.isEmpty(data)) {
+      startPolling(data.config);
+    }
   });
 })();
